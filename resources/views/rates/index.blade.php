@@ -3,8 +3,8 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-10">
+            <div class="card bg-white shadow">
                 <div class="card-header">Parking Rates</div>
 
                 <div class="card-body">
@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <table class="table">
+                    <table class="table table-sm">
                         <thead>
                             <tr>
                                 <th>Vehicle Type</th>

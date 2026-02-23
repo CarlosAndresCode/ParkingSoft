@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card">
+            <div class="card bg-white shadow">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Vehicles</span>
                     <a href="{{ route('vehicles.create') }}" class="btn btn-sm btn-primary">Register New Vehicle</a>
@@ -15,7 +15,7 @@
                         <div class="alert alert-success">{{ session('success') }}</div>
                     @endif
 
-                    <table class="table">
+                    <table class="table table-sm">
                         <thead>
                             <tr>
                                 <th>Plate</th>

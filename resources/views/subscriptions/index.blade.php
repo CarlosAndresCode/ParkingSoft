@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card">
+            <div class="card bg-white shadow">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Manage Subscriptions</span>
                 </div>
@@ -14,7 +14,7 @@
                         <div class="alert alert-success">{{ session('success') }}</div>
                     @endif
 
-                    <div class="card mb-4">
+                    <div class="card mb-4 bg-white">
                         <div class="card-header">Create New Subscription</div>
                         <div class="card-body">
                             <form action="{{ route('subscriptions.store') }}" method="POST">
@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                    <table class="table">
+                    <table class="table table-sm">
                         <thead>
                             <tr>
 {{--                                <th>Type</th>--}}

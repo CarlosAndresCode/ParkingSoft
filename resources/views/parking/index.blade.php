@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card">
+            <div class="card bg-white shadow">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Parking Dashboard</span>
                 </div>
@@ -19,7 +19,7 @@
 
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <div class="card">
+                            <div class="card bg-white">
                                 <div class="card-header">Check-In Vehicle</div>
                                 <div class="card-body">
                                     <form action="{{ route('parking.check-in') }}" method="POST">
@@ -45,7 +45,7 @@
                     <hr>
 
                     <h4>Active Sessions</h4>
-                    <table class="table table-striped">
+                    <table class="table table-sm">
                         <thead>
                             <tr>
                                 <th>Plate</th>
