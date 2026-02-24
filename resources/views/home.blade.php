@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card">
+            <div class="card shadow bg-white">
                 <div class="card-header">{{ __($title) }}</div>
 
                 <div class="card-body">
