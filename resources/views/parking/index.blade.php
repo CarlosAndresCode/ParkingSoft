@@ -18,7 +18,7 @@
                     @endif
 
                     <div class="row mb-4">
-                        <div class="col-md-6">
+                        <div class="col-sm-12 col-md-4 ">
                             <div class="card bg-white">
                                 <div class="card-header">Check-In Vehicle</div>
                                 <div class="card-body">
@@ -40,42 +40,41 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-8">
+                            <h4>Active Sessions</h4>
+                            <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                    <th>Plate</th>
+                                    <th>Type</th>
+                                    <th>Owner</th>
+                                    <th>Entry Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse ($activeSessions as $session)
+                                    <tr>
+                                        <td>{{ $session->vehicle->plate }}</td>
+                                        <td>{{ ucfirst($session->vehicle->type) }}</td>
+                                        <td>{{ $session->vehicle->owner->name ?? 'Guest' }}</td>
+                                        <td>{{ $session->entry_time->format('Y-m-d H:i') }}</td>
+                                        <td>
+                                            <form action="{{ route('parking.check-out', $session) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger">Check-Out</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center">No active sessions</td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
-                    <hr>
-
-                    <h4>Active Sessions</h4>
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Plate</th>
-                                <th>Type</th>
-                                <th>Owner</th>
-                                <th>Entry Time</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($activeSessions as $session)
-                                <tr>
-                                    <td>{{ $session->vehicle->plate }}</td>
-                                    <td>{{ ucfirst($session->vehicle->type) }}</td>
-                                    <td>{{ $session->vehicle->owner->name ?? 'Guest' }}</td>
-                                    <td>{{ $session->entry_time->format('Y-m-d H:i') }}</td>
-                                    <td>
-                                        <form action="{{ route('parking.check-out', $session) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger">Check-Out</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center">No active sessions</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
 
                     <hr>
 
