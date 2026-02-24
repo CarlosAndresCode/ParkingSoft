@@ -12,20 +12,27 @@
             <ul class="navbar-nav me-auto">
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('parking.index') }}">Parking</a>
+                        <a class="nav-link {{ request()->routeIs('parking.index') ? 'active' : '' }}" href="{{ route('parking.index') }}">Parking</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('owners.index') }}">Owners</a>
+                    <li class="nav-item dropdown {{ request()->routeIs('parking.index') ? 'active' : '' }}">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs(['owners.index', 'vehicles.index', 'subscriptions.index']) ? 'active' : '' }} " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            Subscriptions
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-white" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('owners.index') }}">Owners</a>
+                                <a class="dropdown-item" href="{{ route('vehicles.index') }}">Vehicles</a>
+                                <a class="dropdown-item" href="{{ route('subscriptions.index') }}">Subscriptions</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('vehicles.index') }}">Vehicles</a>
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs('rates.index') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            Config
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-white" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item"  href="{{ route('rates.index') }}">Rates</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('subscriptions.index') }}">Subscriptions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('rates.index') }}">Rates</a>
-                    </li>
+
                 @endauth
             </ul>
 
