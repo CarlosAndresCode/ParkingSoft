@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rate;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RateController extends Controller
 {
@@ -37,6 +38,8 @@ class RateController extends Controller
 
         $rate->update($validated);
 
-        return redirect()->route('rates.index')->with('success', 'Rate updated successfully.');
+        Alert::toast('Rate updated successfully.', 'success');
+
+        return redirect()->route('rates.index');
     }
 }

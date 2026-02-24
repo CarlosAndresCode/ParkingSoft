@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Owner;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class OwnerController extends Controller
 {
@@ -47,7 +48,9 @@ class OwnerController extends Controller
 
         Owner::create($validated);
 
-        return redirect()->route('owners.index')->with('success', 'Owner created successfully.');
+        Alert::toast('Owner created successfully.', 'success');
+
+        return redirect()->route('owners.index');
     }
 
     /**
@@ -81,7 +84,9 @@ class OwnerController extends Controller
 
         $owner->update($validated);
 
-        return redirect()->route('owners.index')->with('success', 'Owner updated successfully.');
+        Alert::toast('Owner updated successfully.', 'success');
+
+        return redirect()->route('owners.index');
     }
 
     /**
@@ -91,6 +96,8 @@ class OwnerController extends Controller
     {
         $owner->delete();
 
-        return redirect()->route('owners.index')->with('success', 'Owner deleted successfully.');
+        Alert::toast('Owner deleted successfully.', 'success');
+
+        return redirect()->route('owners.index');
     }
 }

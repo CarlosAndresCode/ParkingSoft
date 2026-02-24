@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Owner;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class VehicleController extends Controller
 {
@@ -53,7 +54,9 @@ class VehicleController extends Controller
 
         Vehicle::create($validated);
 
-        return redirect()->route('vehicles.index')->with('success', 'Vehicle registered successfully.');
+        Alert::toast('Vehicle registered successfully.', 'success');
+
+        return redirect()->route('vehicles.index');
     }
 
     /**
@@ -88,7 +91,9 @@ class VehicleController extends Controller
 
         $vehicle->update($validated);
 
-        return redirect()->route('vehicles.index')->with('success', 'Vehicle updated successfully.');
+        Alert::toast('Vehicle updated successfully.', 'success');
+
+        return redirect()->route('vehicles.index');
     }
 
     /**
@@ -98,6 +103,8 @@ class VehicleController extends Controller
     {
         $vehicle->delete();
 
-        return redirect()->route('vehicles.index')->with('success', 'Vehicle deleted successfully.');
+        Alert::toast('Vehicle deleted successfully.', 'success');
+
+        return redirect()->route('vehicles.index');
     }
 }

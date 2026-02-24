@@ -6,6 +6,7 @@ use App\Models\ParkingSession;
 use App\Models\Rate;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ParkingSessionController extends Controller
 {
@@ -48,7 +49,9 @@ class ParkingSessionController extends Controller
         );
 
         if ($vehicle->activeParkingSession()) {
-            return back()->with('error', 'Vehicle is already in the parking lot.');
+            Alert::toast('Vehicle is already in the parking lot.', 'error');
+
+            return back();
         }
 
         ParkingSession::create([
@@ -57,13 +60,17 @@ class ParkingSessionController extends Controller
             'status' => 'active',
         ]);
 
-        return redirect()->route('parking.index')->with('success', 'Vehicle checked in successfully.');
+        Alert::toast('Vehicle checked in successfully.', 'success');
+
+        return redirect()->route('parking.index');
     }
 
     public function checkOut(ParkingSession $session)
     {
         if ($session->status !== 'active') {
-            return back()->with('error', 'Session is already completed.');
+            Alert::toast('Session is already completed.', 'error');
+
+            return back();
         }
 
         $exitTime = now();
@@ -95,6 +102,8 @@ class ParkingSessionController extends Controller
             'status' => 'completed',
         ]);
 
-        return redirect()->route('parking.index')->with('success', 'Vehicle checked out. Total price: $'.number_format($totalPrice, 2));
+        Alert::toast('Vehicle checked out. Total price: $'.number_format($totalPrice, 2), 'success');
+
+        return redirect()->route('parking.index');
     }
 }

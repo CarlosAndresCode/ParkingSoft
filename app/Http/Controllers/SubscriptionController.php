@@ -6,6 +6,7 @@ use App\Models\Rate;
 use App\Models\Subscription;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SubscriptionController extends Controller
 {
@@ -53,13 +54,17 @@ class SubscriptionController extends Controller
             'status' => 'active',
         ]);
 
-        return redirect()->route('subscriptions.index')->with('success', 'Subscription created successfully.');
+        Alert::toast('Subscription created successfully.', 'success');
+
+        return redirect()->route('subscriptions.index');
     }
 
     public function destroy(Subscription $subscription)
     {
         $subscription->update(['status' => 'canceled']);
 
-        return redirect()->route('subscriptions.index')->with('success', 'Subscription canceled.');
+        Alert::toast('Subscription canceled.', 'success');
+
+        return redirect()->route('subscriptions.index');
     }
 }

@@ -10,10 +10,6 @@
                 </div>
 
                 <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-
                     <div class="card mb-4 bg-white">
                         <div class="card-header">Create New Subscription</div>
                         <div class="card-body">

@@ -11,13 +11,6 @@
 
                 <div class="card-body">
 
-                    @if (session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger">{{ session('error') }}</div>
-                    @endif
-
                     <div class="row mb-4">
                         <div class="col-sm-12 col-md-4 ">
                             <div class="card bg-white">
