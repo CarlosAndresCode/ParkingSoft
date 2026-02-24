@@ -15,6 +15,12 @@
                         <div class="alert alert-success">{{ session('success') }}</div>
                     @endif
 
+                    <div class="mb-3">
+                        <form action="{{ route('vehicles.index') }}" method="GET">
+                            <input type="text" name="search" class="form-control real-time-search" placeholder="Search by plate, model or owner..." value="{{ $search ?? '' }}">
+                        </form>
+                    </div>
+
                     <table class="table table-sm">
                         <thead>
                             <tr>

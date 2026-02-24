@@ -9,12 +9,30 @@ use Illuminate\Http\Request;
 
 class ParkingSessionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $activeSessions = ParkingSession::with('vehicle.owner')->where('status', 'active')->get();
-        $recentSessions = ParkingSession::with('vehicle.owner')->where('status', 'completed')->latest()->take(10)->get();
+        $search = $request->input('search');
 
-        return view('parking.index', compact('activeSessions', 'recentSessions'));
+        $activeSessions = ParkingSession::with('vehicle.owner')
+            ->where('status', 'active')
+            ->when($search, function ($query, $search) {
+                return $query->whereHas('vehicle', function ($q) use ($search) {
+                    $q->where('plate', 'like', "%{$search}%")
+                        ->orWhereHas('owner', function ($q2) use ($search) {
+                            $q2->where('name', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->paginate(4)
+            ->withQueryString();
+
+        $recentSessions = ParkingSession::with('vehicle.owner')
+            ->where('status', 'completed')
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('parking.index', compact('activeSessions', 'recentSessions', 'search'));
     }
 
     public function checkIn(Request $request)

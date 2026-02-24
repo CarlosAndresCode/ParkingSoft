@@ -11,11 +11,22 @@ class VehicleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vehicles = Vehicle::with('owner')->paginate(10);
+        $search = $request->input('search');
 
-        return view('vehicles.index', compact('vehicles'));
+        $vehicles = Vehicle::with('owner')
+            ->when($search, function ($query, $search) {
+                return $query->where('plate', 'like', "%{$search}%")
+                    ->orWhere('model', 'like', "%{$search}%")
+                    ->orWhereHas('owner', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+            })
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('vehicles.index', compact('vehicles', 'search'));
     }
 
     /**

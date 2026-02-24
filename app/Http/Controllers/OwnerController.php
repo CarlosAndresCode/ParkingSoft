@@ -10,11 +10,20 @@ class OwnerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $owners = Owner::withCount('vehicles')->paginate(10);
+        $search = $request->input('search');
 
-        return view('owners.index', compact('owners'));
+        $owners = Owner::withCount('vehicles')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            })
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('owners.index', compact('owners', 'search'));
     }
 
     /**

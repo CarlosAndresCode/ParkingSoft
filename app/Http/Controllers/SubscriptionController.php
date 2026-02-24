@@ -9,12 +9,26 @@ use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $subscriptions = Subscription::with('vehicle.owner')->latest()->paginate(10);
+        $search = $request->input('search');
+
+        $subscriptions = Subscription::with('vehicle.owner')
+            ->when($search, function ($query, $search) {
+                return $query->whereHas('vehicle', function ($q) use ($search) {
+                    $q->where('plate', 'like', "%{$search}%")
+                        ->orWhereHas('owner', function ($q2) use ($search) {
+                            $q2->where('name', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
         $vehicles = Vehicle::whereNotNull('owner_id')->get();
 
-        return view('subscriptions.index', compact('subscriptions', 'vehicles'));
+        return view('subscriptions.index', compact('subscriptions', 'vehicles', 'search'));
     }
 
     public function store(Request $request)

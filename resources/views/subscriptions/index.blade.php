@@ -41,6 +41,12 @@
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <form action="{{ route('subscriptions.index') }}" method="GET">
+                            <input type="text" name="search" class="form-control real-time-search" placeholder="Search by plate or owner..." value="{{ $search ?? '' }}">
+                        </form>
+                    </div>
+
                     <table class="table table-sm">
                         <thead>
                             <tr>
@@ -59,7 +65,7 @@
                                 <tr>
 {{--                                    <td>{{ $subscriptions->vehicle->type }}</td>--}}
                                     <td>{{ $subscription->vehicle->plate }}</td>
-                                    <td>{{ $subscription->vehicle->owner->name }}</td>
+                                    <td>{{ $subscription->vehicle->owner->name ?? 'None (Guest)'}}</td>
                                     <td>{{ $subscription->start_date->format('Y-m-d') }}</td>
                                     <td>{{ $subscription->end_date->format('Y-m-d') }}</td>
                                     <td>${{ number_format($subscription->price, 2) }}</td>

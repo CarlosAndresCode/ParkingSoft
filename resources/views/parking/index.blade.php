@@ -10,6 +10,7 @@
                 </div>
 
                 <div class="card-body">
+
                     @if (session('success'))
                         <div class="alert alert-success">{{ session('success') }}</div>
                     @endif
@@ -41,7 +42,12 @@
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-8">
-                            <h4>Active Sessions</h4>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4 class="mb-0">Active Sessions</h4>
+                                <form action="{{ route('parking.index') }}" method="GET" class="ms-3">
+                                    <input type="search" name="search" class="form-control form-control-sm real-time-search" placeholder="Search active sessions..." value="{{ $search ?? '' }}">
+                                </form>
+                            </div>
                             <table class="table table-sm">
                                 <thead>
                                 <tr>
@@ -73,6 +79,7 @@
                                 @endforelse
                                 </tbody>
                             </table>
+                            {{ $activeSessions->links() }}
                         </div>
                     </div>
 
