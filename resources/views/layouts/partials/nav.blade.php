@@ -24,14 +24,18 @@
                                 <a class="dropdown-item" href="{{ route('subscriptions.index') }}">Subscriptions</a>
                         </div>
                     </li>
+                    @if(Auth::user()->isAdmin())
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs('rates.index') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs(['rates.index', 'roles.index', 'users.index']) ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             Config
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-white" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item"  href="{{ route('rates.index') }}">Rates</a>
+                            <a class="dropdown-item"  href="{{ route('roles.index') }}">Roles</a>
+                            <a class="dropdown-item"  href="{{ route('users.index') }}">Users</a>
                         </div>
                     </li>
+                    @endif
 
                 @endauth
             </ul>
@@ -52,6 +56,9 @@
                         </li>
                     @endif
                 @else
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('cash-register.show') ? 'active' : '' }}" href="{{ route('cash-register.show') }}">Caja</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}

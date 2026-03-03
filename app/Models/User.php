@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
     ];
 
     /**
@@ -44,5 +45,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function cashRegisterSessions()
+    {
+        return $this->hasMany(CashRegisterSession::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role?->name === 'admin';
+    }
+
+    public function isCashier(): bool
+    {
+        return $this->role?->name === 'cashier';
     }
 }

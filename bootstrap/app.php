@@ -13,6 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'Alert' => \RealRashid\SweetAlert\Facades\Alert::class,
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'cash.open' => \App\Http\Middleware\EnsureCashRegisterOpen::class,
         ]);
 
         $middleware->web(append: [

@@ -10,7 +10,7 @@ class Subscription extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['vehicle_id', 'start_date', 'end_date', 'price', 'status'];
+    protected $fillable = ['vehicle_id', 'user_id', 'start_date', 'end_date', 'price', 'status'];
 
     protected $casts = [
         'start_date' => 'date',

@@ -56,6 +56,7 @@ class ParkingSessionController extends Controller
 
         ParkingSession::create([
             'vehicle_id' => $vehicle->id,
+            'user_id' => $request->user()->id,
             'entry_time' => now(),
             'status' => 'active',
         ]);

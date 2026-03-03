@@ -48,6 +48,7 @@ class SubscriptionController extends Controller
 
         Subscription::create([
             'vehicle_id' => $vehicle->id,
+            'user_id' => $request->user()->id,
             'start_date' => $startDate,
             'end_date' => $endDate,
             'price' => $monthlyRate * $validated['months'],
