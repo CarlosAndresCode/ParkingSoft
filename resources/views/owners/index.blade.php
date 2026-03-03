@@ -37,9 +37,9 @@
                                     <td>
                                         <a href="{{ route('owners.show', $owner) }}" class="btn btn-sm btn-info text-white">View</a>
                                         <a href="{{ route('owners.edit', $owner) }}" class="btn btn-sm btn-warning">Edit</a>
-                                        <form action="{{ route('owners.destroy', $owner) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('owners.destroy', $owner) }}" method="POST" class="d-inline" data-confirm="¿Deseas eliminar este propietario? Esta acción no se puede deshacer.">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

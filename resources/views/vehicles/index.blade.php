@@ -36,9 +36,9 @@
                                     <td>{{ $vehicle->owner->name ?? 'None (Guest)' }}</td>
                                     <td>
                                         <a href="{{ route('vehicles.edit', $vehicle) }}" class="btn btn-sm btn-warning">Edit</a>
-                                        <form action="{{ route('vehicles.destroy', $vehicle) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('vehicles.destroy', $vehicle) }}" method="POST" class="d-inline" data-confirm="¿Deseas eliminar este vehículo? Esta acción no se puede deshacer.">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

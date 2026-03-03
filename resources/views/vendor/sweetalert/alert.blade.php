@@ -42,3 +42,61 @@
         </script>
     @endif
 @endif
+
+<script>
+    // Global SweetAlert confirmation for forms/buttons with data-confirm attribute
+    document.addEventListener('DOMContentLoaded', function () {
+        const confirmHandler = function (e) {
+            const target = e.target;
+            const buttonWithConfirm = target.closest('[data-confirm]');
+
+            if (buttonWithConfirm && buttonWithConfirm.tagName !== 'FORM') {
+                const form = buttonWithConfirm.closest('form');
+                if (form) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    const message = buttonWithConfirm.getAttribute('data-confirm') || '¿Estás seguro?';
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Confirmación',
+                        text: message,
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, continuar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                }
+            }
+        };
+
+        const submitHandler = function (e) {
+            const form = e.target;
+            // Only intercept forms that have the data-confirm attribute directly
+            // and are NOT the real-time search forms
+            if (form.matches('form[data-confirm]') && !form.querySelector('.real-time-search')) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                const message = form.getAttribute('data-confirm') || '¿Estás seguro?';
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Confirmación',
+                    text: message,
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, continuar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            }
+        };
+
+        // Use capture phase to intercept before other listeners
+        document.addEventListener('click', confirmHandler, true);
+        document.addEventListener('submit', submitHandler, true);
+    });
+</script>

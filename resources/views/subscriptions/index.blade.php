@@ -72,7 +72,7 @@
                                     </td>
                                     <td>
                                         @if ($subscription->status == 'active')
-                                            <form action="{{ route('subscriptions.destroy', $subscription) }}" method="POST">
+                                            <form action="{{ route('subscriptions.destroy', $subscription) }}" method="POST" data-confirm="¿Cancelar esta suscripción? Se perderá el tiempo restante.">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
                                             </form>
