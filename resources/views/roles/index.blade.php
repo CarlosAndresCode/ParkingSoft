@@ -31,7 +31,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('roles.edit', $role) }}" class="btn btn-sm btn-warning">Editar</a>
+                                        <a href="{{ route('roles.edit', $role) }}" class="btn btn-sm btn-warning">{{ __('Edit') }}</a>
                                         <form action="{{ route('roles.toggle', $role) }}" method="POST" class="d-inline" data-confirm="¿Deseas cambiar el estado de este rol?">
                                             @csrf
                                             <button type="submit" class="btn btn-sm {{ $role->is_active ? 'btn-outline-danger' : 'btn-outline-success' }}">

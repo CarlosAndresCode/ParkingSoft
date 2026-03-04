@@ -19,7 +19,7 @@
                             Subscriptions
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-white" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('owners.index') }}">Owners</a>
+                                <a class="dropdown-item" href="{{ route('owners.index') }}">{{ __('Owners') }}</a>
                                 <a class="dropdown-item" href="{{ route('vehicles.index') }}">Vehicles</a>
                                 <a class="dropdown-item" href="{{ route('subscriptions.index') }}">Subscriptions</a>
                         </div>

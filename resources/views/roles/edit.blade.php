@@ -24,11 +24,8 @@
                                 <label for="is_active" class="form-check-label">Activo</label>
                             </div>
                         </div>
-
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ route('roles.index') }}" class="btn btn-secondary">Cancelar</a>
-                            <button type="submit" class="btn btn-primary">Actualizar Rol</button>
-                        </div>
+                        <x-button type="primary" text="{{ __('Save') }}"></x-button>
+                        <a href="{{ route('roles.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                     </form>
                 </div>
             </div>

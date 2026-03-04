@@ -43,11 +43,8 @@
                             <label for="password-confirm" class="form-label">Confirm Password</label>
                             <input type="password" class="form-control" id="password-confirm" name="password_confirmation" required>
                         </div>
-
-                        <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary">Create User</button>
-                            <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
-                        </div>
+                        <x-button type="primary" text="{{ __('Save') }}"></x-button>
+                        <a href="{{ route('users.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                     </form>
                 </div>
             </div>

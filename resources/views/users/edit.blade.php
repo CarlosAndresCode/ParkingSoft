@@ -34,11 +34,8 @@
                             </select>
                             @error('role_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
-
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
-                            <button type="submit" class="btn btn-primary">Asignar Rol</button>
-                        </div>
+                        <x-button type="primary" text="{{ __('Save') }}"></x-button>
+                        <a href="{{ route('users.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                     </form>
                 </div>
             </div>
