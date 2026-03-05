@@ -11,9 +11,11 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
                 @auth
+                    @if(Auth::user()->isAdmin())
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Dashboard</a>
                     </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('parking.index') ? 'active' : '' }}" href="{{ route('parking.index') }}">{{ __('Parking') }}</a>
                     </li>
