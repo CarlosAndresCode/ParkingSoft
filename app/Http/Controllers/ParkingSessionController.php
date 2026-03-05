@@ -97,10 +97,13 @@ class ParkingSessionController extends Controller
             $totalPrice = $durationInHours * ($rate->hourly_rate ?? 0);
         }
 
+        $user = Auth()->user();
+
         $session->update([
             'exit_time' => $exitTime,
             'total_price' => $totalPrice,
             'status' => 'completed',
+            'user_id' => $user->id,
         ]);
 
         Alert::toast('Vehicle checked out. Total price: $'.number_format($totalPrice, 2), 'success');
