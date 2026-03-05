@@ -116,4 +116,11 @@ return [
     'user'            => 'Usuario',
     'view'            => 'Ver',
     'yes'             => 'Sí',
+    'parking'         => 'Parquedero',
+    'users'           => 'Usuario',
+    'rates'           => 'Tarifas',
+    'vehicles'        => 'Vehículos',
+    'roles'           => 'Roles',
+    'subscriptions'   => 'Suscripciones',
+    'owners'          => 'Propietarios',
 ];
