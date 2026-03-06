@@ -8,13 +8,33 @@
                 <div class="card-header">{{ __($title) }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+{{--                    {{ __('You are logged in!') }}--}}
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card bg-warning-subtle shadow-sm">
+                                <div class="d-flex justify-content-between m-2">
+                                    <div class="fs-5">Ingresos del día:</div>
+                                    <div class="fs-1">60</div>
+                                </div>
+                            </div>
                         </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                        <div class="col-4">
+                            <div class="card bg-success-subtle shadow-sm">
+                                <div class="d-flex justify-content-between m-2">
+                                    <div class="fs-4">Carros</div>
+                                    <div class="fs-1">15</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card bg-primary-subtle shadow-sm">
+                                <div class="d-flex justify-content-between m-2">
+                                    <div class="fs-4">Motos</div>
+                                    <div class="fs-1">45</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

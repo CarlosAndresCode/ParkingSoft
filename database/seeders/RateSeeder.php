@@ -13,14 +13,14 @@ class RateSeeder extends Seeder
     {
         \App\Models\Rate::create([
             'vehicle_type' => 'car',
-            'hourly_rate' => 5.00,
-            'monthly_rate' => 100.00,
+            'hourly_rate' => 2000,
+            'monthly_rate' => 80000,
         ]);
 
         \App\Models\Rate::create([
             'vehicle_type' => 'motorcycle',
-            'hourly_rate' => 2.00,
-            'monthly_rate' => 50.00,
+            'hourly_rate' => 1000,
+            'monthly_rate' => 40000,
         ]);
     }
 }

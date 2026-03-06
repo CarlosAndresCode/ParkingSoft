@@ -39,8 +39,8 @@
                             </select>
                             @error('owner_id') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Vehicle</button>
-                        <a href="{{ route('vehicles.index') }}" class="btn btn-secondary">Cancel</a>
+                        <x-button type="primary" text="{{ __('Save') }}"></x-button>
+                        <a href="{{ route('vehicles.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                     </form>
                 </div>
             </div>

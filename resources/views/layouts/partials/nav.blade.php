@@ -11,27 +11,36 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
                 @auth
+                    @if(Auth::user()->isAdmin())
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('parking.index') ? 'active' : '' }}" href="{{ route('parking.index') }}">Parking</a>
+                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Dashboard</a>
+                    </li>
+                    @endif
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('parking.index') ? 'active' : '' }}" href="{{ route('parking.index') }}">{{ __('Parking') }}</a>
                     </li>
                     <li class="nav-item dropdown {{ request()->routeIs('parking.index') ? 'active' : '' }}">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs(['owners.index', 'vehicles.index', 'subscriptions.index']) ? 'active' : '' }} " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            Subscriptions
+                            Suscripciones
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-white" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('owners.index') }}">Owners</a>
-                                <a class="dropdown-item" href="{{ route('vehicles.index') }}">Vehicles</a>
-                                <a class="dropdown-item" href="{{ route('subscriptions.index') }}">Subscriptions</a>
+                                <a class="dropdown-item" href="{{ route('owners.index') }}">Propietarios</a>
+                                <a class="dropdown-item" href="{{ route('vehicles.index') }}">Vehículos</a>
+                                <a class="dropdown-item" href="{{ route('subscriptions.index') }}">Suscripciones</a>
                         </div>
                     </li>
+                    @if(Auth::user()->isAdmin())
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs('rates.index') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            Config
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs(['rates.index', 'roles.index', 'users.index']) ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            Configuración
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-white" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item"  href="{{ route('rates.index') }}">Rates</a>
+                            <a class="dropdown-item"  href="{{ route('rates.index') }}">Tarifas</a>
+                            <a class="dropdown-item"  href="{{ route('roles.index') }}">Roles</a>
+                            <a class="dropdown-item"  href="{{ route('users.index') }}">Usuarios</a>
                         </div>
                     </li>
+                    @endif
 
                 @endauth
             </ul>
@@ -42,16 +51,19 @@
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
                         </li>
                     @endif
 
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
                         </li>
                     @endif
                 @else
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('cash-register.show') ? 'active' : '' }}" href="{{ route('cash-register.show') }}">Caja</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}
@@ -61,7 +73,7 @@
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                                Cerrar Sesión
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

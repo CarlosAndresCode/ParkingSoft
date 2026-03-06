@@ -6,7 +6,7 @@
         <div class="col-md-10">
             <div class="card bg-white shadow">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Parking Dashboard</span>
+                    <span>Panel de Parqueo</span>
                 </div>
 
                 <div class="card-body">
@@ -14,60 +14,60 @@
                     <div class="row mb-4">
                         <div class="col-sm-12 col-md-4 ">
                             <div class="card bg-white">
-                                <div class="card-header">Check-In Vehicle</div>
+                                <div class="card-header">Ingreso de Vehículo</div>
                                 <div class="card-body">
                                     <form action="{{ route('parking.check-in') }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="plate" class="form-label">Plate Number</label>
+                                            <label for="plate" class="form-label">Número de Placa</label>
                                             <input type="text" class="form-control" id="plate" name="plate" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="type" class="form-label">Vehicle Type</label>
+                                            <label for="type" class="form-label">Tipo de Vehículo</label>
                                             <select class="form-select" id="type" name="type" required>
-                                                <option value="car">Car</option>
-                                                <option value="motorcycle">Motorcycle</option>
+                                                <option value="car">Carro</option>
+                                                <option value="motorcycle">Motocicleta</option>
                                             </select>
                                         </div>
-                                        <button type="submit" class="btn btn-success w-100">Check-In</button>
+                                        <button type="submit" class="btn btn-success w-100">Registrar Ingreso</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-8">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h4 class="mb-0">Active Sessions</h4>
+                                <h4 class="mb-0">Sesiones Activas</h4>
                                 <form action="{{ route('parking.index') }}" method="GET" class="ms-3">
-                                    <input type="search" name="search" class="form-control form-control-sm real-time-search" placeholder="Search active sessions..." value="{{ $search ?? '' }}">
+                                    <input type="search" name="search" class="form-control form-control-sm real-time-search" placeholder="Buscar sesiones activas..." value="{{ $search ?? '' }}">
                                 </form>
                             </div>
                             <table class="table table-sm">
                                 <thead>
                                 <tr>
-                                    <th>Plate</th>
-                                    <th>Type</th>
-                                    <th>Owner</th>
-                                    <th>Entry Time</th>
-                                    <th>Actions</th>
+                                    <th>Placa</th>
+                                    <th>Tipo</th>
+                                    <th>Dueño</th>
+                                    <th>Hora Entrada</th>
+                                    <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @forelse ($activeSessions as $session)
                                     <tr>
                                         <td>{{ $session->vehicle->plate }}</td>
-                                        <td>{{ ucfirst($session->vehicle->type) }}</td>
-                                        <td>{{ $session->vehicle->owner->name ?? 'Guest' }}</td>
+                                        <td>{{ $session->vehicle->type == 'car' ? 'Carro' : 'Moto' }}</td>
+                                        <td>{{ $session->vehicle->owner->name ?? 'Invitado' }}</td>
                                         <td>{{ $session->entry_time->format('Y-m-d H:i') }}</td>
                                         <td>
                                             <form action="{{ route('parking.check-out', $session) }}" method="POST">
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger">Check-Out</button>
+                                                <button type="submit" class="btn btn-sm btn-danger">Registrar Salida</button>
                                             </form>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center">No active sessions</td>
+                                        <td colspan="5" class="text-center">No hay sesiones activas</td>
                                     </tr>
                                 @endforelse
                                 </tbody>
@@ -78,14 +78,14 @@
 
                     <hr>
 
-                    <h4>Recent Completed Sessions</h4>
+                    <h4>Sesiones Recientes Completadas</h4>
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Plate</th>
-                                <th>Entry</th>
-                                <th>Exit</th>
-                                <th>Total Price</th>
+                                <th>Placa</th>
+                                <th>Entrada</th>
+                                <th>Salida</th>
+                                <th>Precio Total</th>
                             </tr>
                         </thead>
                         <tbody>
