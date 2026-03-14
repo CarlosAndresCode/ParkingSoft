@@ -16,7 +16,7 @@ class VehicleController extends Controller
     {
         $search = $request->input('search');
 
-        $vehicles = Vehicle::with('owner')
+        $vehicles = Vehicle::with('owner', 'brand')
             ->when($search, function ($query, $search) {
                 return $query->where('plate', 'like', "%{$search}%")
                     ->orWhere('model', 'like', "%{$search}%")
@@ -36,8 +36,9 @@ class VehicleController extends Controller
     public function create()
     {
         $owners = Owner::all();
+        $brands = \App\Models\Brand::all();
 
-        return view('vehicles.create', compact('owners'));
+        return view('vehicles.create', compact('owners', 'brands'));
     }
 
     /**
@@ -73,8 +74,9 @@ class VehicleController extends Controller
     public function edit(Vehicle $vehicle)
     {
         $owners = Owner::all();
+        $brands = \App\Models\Brand::all();
 
-        return view('vehicles.edit', compact('vehicle', 'owners'));
+        return view('vehicles.edit', compact('vehicle', 'owners', 'brands'));
     }
 
     /**
@@ -84,6 +86,7 @@ class VehicleController extends Controller
     {
         $validated = $request->validate([
             'plate' => 'required|string|max:20|unique:vehicles,plate,'.$vehicle->id,
+            'brand_id' => 'nullable|exists:brands,id',
             'model' => 'nullable|string|max:255',
             'type' => 'required|in:car,motorcycle',
             'owner_id' => 'nullable|exists:owners,id',

@@ -14,7 +14,7 @@ class ParkingSessionController extends Controller
     {
         $search = $request->input('search');
 
-        $activeSessions = ParkingSession::with('vehicle.owner')
+        $activeSessions = ParkingSession::with(['vehicle.owner', 'vehicle.brand'])
             ->where('status', 'active')
             ->when($search, function ($query, $search) {
                 return $query->whereHas('vehicle', function ($q) use ($search) {
@@ -27,11 +27,13 @@ class ParkingSessionController extends Controller
             ->paginate(4)
             ->withQueryString();
 
-        $recentSessions = ParkingSession::with('vehicle.owner')
+        $recentSessions = ParkingSession::with(['vehicle.owner', 'vehicle.brand'])
             ->where('status', 'completed')
             ->latest()
             ->take(10)
             ->get();
+
+
 
         return view('parking.index', compact('activeSessions', 'recentSessions', 'search'));
     }
@@ -41,11 +43,15 @@ class ParkingSessionController extends Controller
         $validated = $request->validate([
             'plate' => 'required|string',
             'type' => 'required|in:car,motorcycle',
+            'brand_id' => 'nullable|exists:brands,id',
         ]);
 
         $vehicle = Vehicle::firstOrCreate(
             ['plate' => $validated['plate']],
-            ['type' => $validated['type']]
+            [
+                'type' => $validated['type'],
+                'brand_id' => $validated['brand_id'] ?? null,
+            ]
         );
 
         if ($vehicle->activeParkingSession()) {
@@ -74,6 +80,34 @@ class ParkingSessionController extends Controller
             return back();
         }
 
+        $totalPrice = $this->calculateTotalPrice($session);
+        $exitTime = now();
+        $user = Auth()->user();
+
+        $session->update([
+            'exit_time' => $exitTime,
+            'total_price' => $totalPrice,
+            'status' => 'completed',
+            'user_id' => $user->id,
+        ]);
+
+        Alert::toast('Vehicle checked out. Total price: $'.number_format($totalPrice, 2), 'success');
+
+        return redirect()->route('parking.index');
+    }
+
+    public function calculatePrice(ParkingSession $session)
+    {
+        $price = $this->calculateTotalPrice($session);
+
+        return response()->json([
+            'price' => $price,
+            'formatted_price' => number_format($price, 2),
+        ]);
+    }
+
+    private function calculateTotalPrice(ParkingSession $session): float
+    {
         $exitTime = now();
         $entryTime = $session->entry_time;
 
@@ -91,23 +125,11 @@ class ParkingSessionController extends Controller
 
         // Check if there is an active subscription
         if ($vehicle->activeSubscription()) {
-            $totalPrice = 0;
-        } else {
-            $rate = Rate::where('vehicle_type', $vehicle->type)->first();
-            $totalPrice = $durationInHours * ($rate->hourly_rate ?? 0);
+            return 0;
         }
 
-        $user = Auth()->user();
+        $rate = Rate::where('vehicle_type', $vehicle->type)->first();
 
-        $session->update([
-            'exit_time' => $exitTime,
-            'total_price' => $totalPrice,
-            'status' => 'completed',
-            'user_id' => $user->id,
-        ]);
-
-        Alert::toast('Vehicle checked out. Total price: $'.number_format($totalPrice, 2), 'success');
-
-        return redirect()->route('parking.index');
+        return (float) ($durationInHours * ($rate->hourly_rate ?? 0));
     }
 }

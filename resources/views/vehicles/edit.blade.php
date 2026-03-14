@@ -17,6 +17,15 @@
                             @error('plate') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="mb-3">
+                            <label for="brand_id" class="form-label">Marca</label>
+                            <select class="form-select" id="brand_id" name="brand_id">
+                                <option value="">Seleccione una marca (Opcional)</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}" {{ $vehicle->brand_id == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="model" class="form-label">Model/Brand</label>
                             <input type="text" class="form-control @error('model') is-invalid @enderror" id="model" name="model" value="{{ old('model', $vehicle->model) }}">
                             @error('model') <span class="invalid-feedback">{{ $message }}</span> @enderror

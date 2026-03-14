@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     // Parking Sessions
     Route::get('parking', [ParkingSessionController::class, 'index'])->name('parking.index');
     Route::post('parking/check-in', [ParkingSessionController::class, 'checkIn'])->middleware('cash.open')->name('parking.check-in');
+    Route::get('parking/calculate-price/{session}', [ParkingSessionController::class, 'calculatePrice'])->middleware('cash.open')->name('parking.calculate-price');
     Route::post('parking/check-out/{session}', [ParkingSessionController::class, 'checkOut'])->middleware('cash.open')->name('parking.check-out');
 
     // Subscriptions

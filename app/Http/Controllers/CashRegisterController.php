@@ -43,6 +43,10 @@ class CashRegisterController extends Controller
                 ->count();
 
             $summary = [
+                'parking_sum' => $parkingSum,
+                'parking_count' => $parkingCount,
+                'subs_sum' => $subsSum,
+                'subs_count' => $subsCount,
                 'income_sum' => ($parkingSum + $subsSum),
                 'income_count' => ($parkingCount + $subsCount),
             ];
@@ -107,16 +111,18 @@ class CashRegisterController extends Controller
             ->whereBetween('created_at', [$openSession->opened_at, $now])
             ->count();
 
-        $incomeSum = $parkingSum + $subsSum;
-        $incomeCount = $parkingCount + $subsCount;
-
         $openSession->update([
             'closed_at' => $now,
-            'income_sum' => $incomeSum,
-            'income_count' => $incomeCount,
+            'income_sum' => $parkingSum,
+            'income_count' => $parkingCount,
+            'subscriptions_sum' => $subsSum,
+            'subscriptions_count' => $subsCount,
         ]);
 
-        Alert::toast('Caja cerrada. Total ingresos: $'.number_format($incomeSum, 2).' / Movimientos: '.$incomeCount, 'success');
+        $totalIncome = $parkingSum + $subsSum;
+        $totalCount = $parkingCount + $subsCount;
+
+        Alert::toast('Caja cerrada. Total: $'.number_format($totalIncome, 2).' / Movimientos: '.$totalCount, 'success');
 
         return redirect()->route('cash-register.show');
     }

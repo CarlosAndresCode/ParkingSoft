@@ -12,11 +12,16 @@ class Vehicle extends Model
     /** @use HasFactory<\Database\Factories\VehicleFactory> */
     use HasFactory;
 
-    protected $fillable = ['plate', 'model', 'type', 'owner_id'];
+    protected $fillable = ['plate', 'brand_id', 'model', 'type', 'owner_id'];
 
     public function owner(): BelongsTo
     {
         return $this->belongsTo(Owner::class);
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     public function parkingSessions(): HasMany

@@ -59,9 +59,13 @@
                                         <td>{{ $session->vehicle->owner->name ?? 'Invitado' }}</td>
                                         <td>{{ $session->entry_time->format('Y-m-d H:i') }}</td>
                                         <td>
-                                            <form action="{{ route('parking.check-out', $session) }}" method="POST">
+                                            <button type="button" class="btn btn-sm btn-danger btn-check-out"
+                                                    data-session-id="{{ $session->id }}"
+                                                    data-plate="{{ $session->vehicle->plate }}">
+                                                Registrar Salida
+                                            </button>
+                                            <form id="checkout-form-{{ $session->id }}" action="{{ route('parking.check-out', $session) }}" method="POST" style="display: none;">
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger">Registrar Salida</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -105,3 +109,48 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const buttons = document.querySelectorAll('.btn-check-out');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', async function () {
+                const sessionId = this.getAttribute('data-session-id');
+                const plate = this.getAttribute('data-plate');
+
+                Swal.fire({
+                    title: 'Calculando precio...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                try {
+                    const response = await fetch(`/parking/calculate-price/${sessionId}`);
+                    const data = await response.json();
+
+                    Swal.fire({
+                        title: `Confirmar Salida - ${plate}`,
+                        html: `El valor a pagar es: <strong>$${data.formatted_price}</strong>`,
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Confirmar Salida',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById(`checkout-form-${sessionId}`).submit();
+                        }
+                    });
+                } catch (error) {
+                    Swal.fire('Error', 'No se pudo calcular el precio', 'error');
+                }
+            });
+        });
+    });
+</script>
+@endpush

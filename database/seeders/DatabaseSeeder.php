@@ -20,10 +20,11 @@ class DatabaseSeeder extends Seeder
         User::factory(1)->create(); // Create user admin default
 
         $this->call([
-            RateSeeder::class
+            BrandSeeder::class,
+            RateSeeder::class,
         ]);
 
-        if(config('app.env') === 'local') { // Demo user for testing
+        if (config('app.env') === 'local') { // Demo user for testing
             User::create([
                 'name' => 'Cashier User',
                 'email' => 'cashier@cahier.com',

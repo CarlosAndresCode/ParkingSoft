@@ -21,6 +21,7 @@
                         <thead>
                             <tr>
                                 <th>Placa</th>
+                                <th>Marca</th>
                                 <th>Modelo</th>
                                 <th>Tipo</th>
                                 <th>Dueño</th>
@@ -31,6 +32,7 @@
                             @foreach ($vehicles as $vehicle)
                                 <tr>
                                     <td>{{ $vehicle->plate }}</td>
+                                    <td>{{ $vehicle->vehicle->brand->name ?? 'N/A' }}</td>
                                     <td>{{ $vehicle->model ?? 'N/A' }}</td>
                                     <td>{{ $vehicle->type == 'car' ? 'Carro' : 'Moto' }}</td>
                                     <td>{{ $vehicle->owner->name ?? 'Ninguno (Invitado)' }}</td>

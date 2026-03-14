@@ -18,17 +18,28 @@
                         <p>Actualmente tienes una caja abierta desde <strong>{{ $openSession->opened_at->format('Y-m-d H:i') }}</strong>.</p>
 
                         @if ($summary)
-                            <div class="mb-3">
-                                <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span>Movimientos registrados</span>
-                                        <strong>{{ $summary['income_count'] }}</strong>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span>Total de ingresos estimados</span>
-                                        <strong>${{ number_format($summary['income_sum'], 2) }}</strong>
-                                    </li>
-                                </ul>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="card border-primary mb-3">
+                                        <div class="card-header bg-primary text-white">Ingresos de Parqueo</div>
+                                        <div class="card-body text-primary">
+                                            <h5 class="card-title">Total: ${{ number_format($summary['parking_sum'], 2) }}</h5>
+                                            <p class="card-text">Cantidad: {{ $summary['parking_count'] }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-success mb-3">
+                                        <div class="card-header bg-success text-white">Suscripciones</div>
+                                        <div class="card-body text-success">
+                                            <h5 class="card-title">Total: ${{ number_format($summary['subs_sum'], 2) }}</h5>
+                                            <p class="card-text">Cantidad: {{ $summary['subs_count'] }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4 text-center">
+                                <h3>Total General: ${{ number_format($summary['income_sum'], 2) }}</h3>
                             </div>
                         @endif
 
