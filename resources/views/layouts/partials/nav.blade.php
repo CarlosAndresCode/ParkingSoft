@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-bottom">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/home') }}">
             {{ config('app.name', 'Laravel') }}
@@ -13,14 +13,23 @@
                 @auth
                     @if(Auth::user()->isAdmin())
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Dashboard</a>
+                        <a class="nav-link {{ request()->routeIs('home') ? 'active text-primary fw-medium' : '' }}" href="{{ route('home') }}">Dashboard</a>
                     </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('parking.index') ? 'active' : '' }}" href="{{ route('parking.index') }}">{{ __('Parking') }}</a>
+                        <a class="nav-link {{ request()->routeIs('parking.index') ? 'active text-primary fw-medium' : '' }}" href="{{ route('parking.index') }}">{{ __('Parking') }}</a>
                     </li>
-                    <li class="nav-item dropdown {{ request()->routeIs('parking.index') ? 'active' : '' }}">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs(['owners.index', 'vehicles.index', 'subscriptions.index']) ? 'active' : '' }} " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('washes.index') ? 'active text-primary fw-medium' : '' }}" href="{{ route('washes.index') }}">Lavadero</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('products.index') ? 'active text-primary fw-medium' : '' }}" href="{{ route('products.index') }}">Tienda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('transactions.index') ? 'active text-primary fw-medium' : '' }}" href="{{ route('transactions.index') }}">Facturación</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs(['owners.*', 'vehicles.*', 'subscriptions.*']) ? 'active text-primary fw-medium' : '' }} " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             Suscripciones
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-white" aria-labelledby="navbarDropdown">
@@ -31,11 +40,12 @@
                     </li>
                     @if(Auth::user()->isAdmin())
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs(['rates.index', 'roles.index', 'users.index']) ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle {{ request()->routeIs(['rates.index', 'wash-types.index', 'roles.index', 'users.index']) ? 'active text-primary fw-medium' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             Configuración
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-white" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item"  href="{{ route('rates.index') }}">Tarifas</a>
+                            <a class="dropdown-item"  href="{{ route('rates.index') }}">Tarifas Parqueo</a>
+                            <a class="dropdown-item"  href="{{ route('wash-types.index') }}">Tipos de Lavado</a>
                             <a class="dropdown-item"  href="{{ route('roles.index') }}">Roles</a>
                             <a class="dropdown-item"  href="{{ route('users.index') }}">Usuarios</a>
                         </div>
@@ -51,13 +61,13 @@
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Log In') }}</a>
                         </li>
                     @endif
 
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                     @endif
                 @else
@@ -73,7 +83,7 @@
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                Cerrar Sesión
+                                {{ __('Logout') }}
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

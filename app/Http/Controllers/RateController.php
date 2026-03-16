@@ -11,11 +11,44 @@ class RateController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rates = Rate::all();
+        $search = $request->input('search');
 
-        return view('rates.index', compact('rates'));
+        $rates = Rate::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('vehicle_type', 'like', "%{$search}%");
+            })
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('rates.index', compact('rates', 'search'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('rates.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'vehicle_type' => 'required|string|max:50|unique:rates,vehicle_type',
+            'hourly_rate' => 'required|numeric|min:0',
+            'monthly_rate' => 'required|numeric|min:0',
+        ]);
+
+        Rate::create($validated);
+
+        Alert::toast('Rate created successfully.', 'success');
+
+        return redirect()->route('rates.index');
     }
 
     /**
@@ -39,6 +72,18 @@ class RateController extends Controller
         $rate->update($validated);
 
         Alert::toast('Rate updated successfully.', 'success');
+
+        return redirect()->route('rates.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Rate $rate)
+    {
+        $rate->delete();
+
+        Alert::toast('Rate deleted successfully.', 'success');
 
         return redirect()->route('rates.index');
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ParkingSession;
 use App\Models\Rate;
 use App\Models\Vehicle;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -29,8 +30,9 @@ class ParkingSessionController extends Controller
 
         $recentSessions = ParkingSession::with(['vehicle.owner', 'vehicle.brand'])
             ->where('status', 'completed')
+            ->whereDate('exit_time', now()->toDateString())
             ->latest()
-            ->take(10)
+            ->take(25)
             ->get();
 
 
@@ -47,7 +49,7 @@ class ParkingSessionController extends Controller
         ]);
 
         $vehicle = Vehicle::firstOrCreate(
-            ['plate' => $validated['plate']],
+            ['plate' => strtoupper($validated['plate'])],
             [
                 'type' => $validated['type'],
                 'brand_id' => $validated['brand_id'] ?? null,
@@ -60,7 +62,7 @@ class ParkingSessionController extends Controller
             return back();
         }
 
-        ParkingSession::create([
+        $session = ParkingSession::create([
             'vehicle_id' => $vehicle->id,
             'user_id' => $request->user()->id,
             'entry_time' => now(),
@@ -69,7 +71,16 @@ class ParkingSessionController extends Controller
 
         Alert::toast('Vehicle checked in successfully.', 'success');
 
-        return redirect()->route('parking.index');
+        // Cargar relación de marca para el ticket
+        $session->load('vehicle.brand');
+
+        // Generar PDF del ticket
+        $pdf = Pdf::loadView('tickets.parking-entry', compact('session'))
+            ->setPaper([0, 0, 226.77, 425.20], 'portrait'); // 80mm x 150mm
+
+        // Devolver el PDF para imprimir directamente
+       $pdf->stream('ticket-'.$session->id.'.pdf');
+        return redirect()->route('parking.index')->with('ticket', $pdf->output());
     }
 
     public function checkOut(ParkingSession $session)

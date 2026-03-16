@@ -8,11 +8,18 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class RoleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::withCount('users')->get();
+        $search = $request->input('search');
 
-        return view('roles.index', compact('roles'));
+        $roles = Role::withCount('users')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%");
+            })
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('roles.index', compact('roles', 'search'));
     }
 
     public function create()

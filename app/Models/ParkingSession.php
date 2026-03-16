@@ -21,4 +21,9 @@ class ParkingSession extends Model
     {
         return $this->belongsTo(Vehicle::class);
     }
+
+    public function transactionItems(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(TransactionItem::class, 'serviceable');
+    }
 }

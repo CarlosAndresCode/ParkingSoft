@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="card shadow border-1 rounded-1">
                 <div class="card-header bg-white border-1 py-3">
                     <h5 class="mb-0 fw-bold text-primary"><i class="fas fa-chart-line me-2"></i>{{ __($title) }}</h5>

@@ -8,9 +8,12 @@ Route::get('/', function () {
 
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ParkingSessionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\WashController;
 
 Auth::routes();
 
@@ -23,6 +26,7 @@ Route::middleware(['auth'])->group(function () {
     // Rutas de configuración (solo admin)
     Route::middleware('role:admin')->group(function () {
         Route::resource('rates', RateController::class);
+        Route::resource('wash-types', \App\Http\Controllers\WashTypeController::class);
         Route::resource('roles', \App\Http\Controllers\RoleController::class)->except(['show', 'destroy']);
         Route::post('roles/{role}/toggle', [\App\Http\Controllers\RoleController::class, 'toggle'])->name('roles.toggle');
         Route::resource('users', \App\Http\Controllers\UserController::class)->except(['show', 'destroy']);
@@ -43,4 +47,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
     Route::post('subscriptions', [SubscriptionController::class, 'store'])->middleware('cash.open')->name('subscriptions.store');
     Route::delete('subscriptions/{subscription}', [SubscriptionController::class, 'destroy'])->name('subscriptions.destroy');
+
+    // Módulos Nuevos: Lavado, Retail y Transacciones
+    Route::resource('washes', WashController::class);
+    Route::resource('products', ProductController::class);
+    Route::resource('transactions', TransactionController::class);
 });
