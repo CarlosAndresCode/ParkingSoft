@@ -71,16 +71,18 @@ class ParkingSessionController extends Controller
 
         Alert::toast('Vehicle checked in successfully.', 'success');
 
-        // Cargar relación de marca para el ticket
+        return redirect()->route('parking.index')
+                ->with('pdf_session_id', $session); // 👈 Solo pasamos el ID
+    }
+
+    public function printTicket(ParkingSession $session)
+    {
         $session->load('vehicle.brand');
 
-        // Generar PDF del ticket
         $pdf = Pdf::loadView('tickets.parking-entry', compact('session'))
-            ->setPaper([0, 0, 226.77, 425.20], 'portrait'); // 80mm x 150mm
+            ->setPaper([0, 0, 226.77, 425.20], 'portrait');
 
-        // Devolver el PDF para imprimir directamente
-       $pdf->stream('ticket-'.$session->id.'.pdf');
-        return redirect()->route('parking.index')->with('ticket', $pdf->output());
+        return $pdf->stream('ticket-' . $session->id . '.pdf');
     }
 
     public function checkOut(ParkingSession $session)

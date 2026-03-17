@@ -25,7 +25,7 @@
                                         <span>Ingreso de Vehículo</span>
                                     </div>
                                     <div class="card-body">
-                                        <form id="check-in-form" action="{{ route('parking.check-in') }}" method="POST" target="_blank">
+                                        <form id="check-in-form" action="{{ route('parking.check-in') }}" method="POST">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="plate" class="form-label">Número de Placa</label>
@@ -102,13 +102,15 @@
             </div>
         </div>
     </div>
+
     <!-- Modal Historial -->
     <div class="modal fade" id="historyModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="card bg-white shadow">
-                    <div class="card-header align-items-center">
+                    <div class="card-header d-flex justify-content-between">
                         Ingresos Recientes Completadas
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="card-body">
                         <span class="fst-italic text-danger">Solo se muestran los ingresos del dia de hoy</span>
@@ -116,6 +118,7 @@
                             <thead>
                             <tr>
                                 <th>Placa</th>
+                                <th>Tipo</th>
                                 <th>Entrada</th>
                                 <th>Salida</th>
                                 <th>Precio Total</th>
@@ -125,6 +128,7 @@
                                 @foreach ($recentSessions as $session)
                                     <tr>
                                         <td>{{ $session->vehicle->plate }}</td>
+                                        <td>{{ $session->vehicle->type == 'car' ? 'Carro' : 'Moto' }}</td>
                                         <td>{{ $session->entry_time }}</td>
                                         <td>{{ $session->exit_time }}</td>
                                         <td>${{ number_format($session->total_price, 2) }}</td>
@@ -137,11 +141,45 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal PDF Ticket -->
+    <div class="modal fade" id="pdfModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="height: 85vh;">
+                <div class="modal-header py-2">
+                    <h6 class="modal-title">🎫 Ticket de Entrada</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0" style="height: 100%;">
+                    <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón oculto para disparar el modal -->
+    <button id="pdfModalTrigger"
+            data-bs-toggle="modal"
+            data-bs-target="#pdfModal"
+            style="display:none;">
+    </button>
 @endsection
 
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+
+        @if(session('pdf_session_id'))
+        window.addEventListener('load', function () {
+            const pdfUrl = '{{ route('parking.ticket', session('pdf_session_id')) }}';
+            document.getElementById('pdfFrame').src = pdfUrl;
+
+            // Usar el atributo data-bs directamente en vez de JS
+            const triggerBtn = document.getElementById('pdfModalTrigger');
+            triggerBtn.click();
+        });
+        @endif
+
         const buttons = document.querySelectorAll('.btn-check-out');
 
         buttons.forEach(button => {
