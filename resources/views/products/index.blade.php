@@ -90,7 +90,7 @@
                 @csrf
                 <input type="hidden" name="type" value="retail">
                 <div class="modal-header">
-                    <h5 class="modal-title">Nueva Venta Retail</h5>
+                    <p class="modal-title">Nueva Venta Retail</p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">

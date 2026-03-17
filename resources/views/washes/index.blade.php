@@ -65,7 +65,7 @@
                                     <tbody>
                                         @forelse($recentWashes as $wash)
                                             <tr>
-                                                <td><span class="badge bg-success text-uppercase">{{ $wash->plate ?? 'N/A' }}</span></td>
+                                                <td><span class="badge bg-success-subtle text-black text-uppercase">{{ $wash->plate ?? 'N/A' }}</span></td>
                                                 <td>{{ $wash->washType->name }}</td>
                                                 <td><small>{{ $wash->completed_at->format('d/m/Y H:i') }}</small></td>
                                                 <td>${{ number_format($wash->washType->price, 2) }}</td>

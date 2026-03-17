@@ -49,12 +49,147 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-8">
+{{--
+
+                                {{-- Header de sección --}}
+{{--                                <div class="d-flex justify-content-between align-items-center mb-3">--}}
+{{--                                    <div class="d-flex align-items-center gap-2">--}}
+{{--                                        <span style="width:8px;height:8px;border-radius:50%;background:#639922;display:inline-block;"></span>--}}
+{{--                                        <h5 class="mb-0 fw-500">Sesiones activas</h5>--}}
+{{--                                        <span class="badge rounded-pill text-bg-secondary fw-normal" style="font-size:11px;">--}}
+{{--            {{ $activeSessions->total() }}--}}
+{{--        </span>--}}
+{{--                                    </div>--}}
+{{--                                    <form action="{{ route('parking.index') }}" method="GET">--}}
+{{--                                        <div class="input-group input-group-sm">--}}
+{{--            <span class="input-group-text bg-white border-end-0">--}}
+{{--                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">--}}
+{{--                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>--}}
+{{--                </svg>--}}
+{{--            </span>--}}
+{{--                                            <input type="search" name="search" class="form-control border-start-0 real-time-search"--}}
+{{--                                                   placeholder="Buscar placa u dueño…" value="{{ $search ?? '' }}"--}}
+{{--                                                   style="font-size:13px;">--}}
+{{--                                        </div>--}}
+{{--                                    </form>--}}
+{{--                                </div>--}}
+
+{{--                                --}}{{-- Tabla --}}
+{{--                                <div class="card border" style="border-color: var(--bs-border-color) !important; overflow:hidden;">--}}
+{{--                                    <table class="table table-sm table-hover mb-0" style="font-size:13.5px;">--}}
+{{--                                        <thead class="table-light">--}}
+{{--                                        <tr>--}}
+{{--                                            <th style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#888;font-weight:500;">Vehículo</th>--}}
+{{--                                            <th style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#888;font-weight:500;">Tipo</th>--}}
+{{--                                            <th style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#888;font-weight:500;">Dueño</th>--}}
+{{--                                            <th style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#888;font-weight:500;">Entrada</th>--}}
+{{--                                            <th style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#888;font-weight:500;">Estado</th>--}}
+{{--                                            <th style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#888;font-weight:500;">Acción</th>--}}
+{{--                                        </tr>--}}
+{{--                                        </thead>--}}
+{{--                                        <tbody>--}}
+{{--                                        @forelse ($activeSessions as $session)--}}
+{{--                                            @php--}}
+{{--                                                $isCar = $session->vehicle->type === 'car';--}}
+{{--                                                $owner = $session->vehicle->owner;--}}
+{{--                                                $initials = $owner--}}
+{{--                                                    ? collect(explode(' ', $owner->name))->map(fn($w) => strtoupper($w[0]))->take(2)->implode('')--}}
+{{--                                                    : '—';--}}
+{{--                                            @endphp--}}
+{{--                                            <tr>--}}
+{{--                                                --}}{{-- Placa --}}
+{{--                                                <td>--}}
+{{--                                                    <code style="font-size:12px;background:#f4f4f4;padding:2px 7px;border-radius:4px;border:1px solid #e0e0e0;letter-spacing:.05em;">--}}
+{{--                                                        {{ $session->vehicle->plate }}--}}
+{{--                                                    </code>--}}
+{{--                                                </td>--}}
+
+{{--                                                --}}{{-- Badge tipo --}}
+{{--                                                <td>--}}
+{{--                                                    @if($isCar)--}}
+{{--                                                        <span style="background:#E6F1FB;color:#185FA5;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500;display:inline-flex;align-items:center;gap:4px;">--}}
+{{--                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="10" width="22" height="9" rx="2"/><path d="M5 10L7 4h10l2 6"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/></svg>--}}
+{{--                            Carro--}}
+{{--                        </span>--}}
+{{--                                                    @else--}}
+{{--                                                        <span style="background:#FAEEDA;color:#854F0B;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500;display:inline-flex;align-items:center;gap:4px;">--}}
+{{--                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M5 14l3-7h6l4 4-4 3H5"/></svg>--}}
+{{--                            Moto--}}
+{{--                        </span>--}}
+{{--                                                    @endif--}}
+{{--                                                </td>--}}
+
+{{--                                                --}}{{-- Avatar + nombre --}}
+{{--                                                <td>--}}
+{{--                                                    <div class="d-flex align-items-center gap-2">--}}
+{{--                                                        <div style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;--}}
+{{--                            background:{{ $isCar ? '#E6F1FB' : '#FAEEDA' }};--}}
+{{--                            color:{{ $isCar ? '#0C447C' : '#633806' }};">--}}
+{{--                                                            {{ $initials }}--}}
+{{--                                                        </div>--}}
+{{--                                                        @if($owner)--}}
+{{--                                                            <span style="font-size:13px;font-weight:500;">{{ $owner->name }}</span>--}}
+{{--                                                        @else--}}
+{{--                                                            <span style="font-size:12px;color:#aaa;font-style:italic;">Invitado</span>--}}
+{{--                                                        @endif--}}
+{{--                                                    </div>--}}
+{{--                                                </td>--}}
+
+{{--                                                --}}{{-- Hora entrada --}}
+{{--                                                <td>--}}
+{{--                                                    <div style="font-size:13px;font-weight:500;">{{ $session->entry_time->format('H:i') }}</div>--}}
+{{--                                                    <div style="font-size:11px;color:#aaa;">{{ $session->entry_time->isToday() ? 'hoy' : $session->entry_time->format('d/m') }}</div>--}}
+{{--                                                </td>--}}
+
+{{--                                                --}}{{-- Estado --}}
+{{--                                                <td>--}}
+{{--                    <span style="background:#EAF3DE;color:#3B6D11;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500;display:inline-flex;align-items:center;gap:5px;">--}}
+{{--                        <span style="width:5px;height:5px;border-radius:50%;background:#639922;display:inline-block;"></span>--}}
+{{--                        Activa--}}
+{{--                    </span>--}}
+{{--                                                </td>--}}
+
+{{--                                                --}}{{-- Botón salida --}}
+{{--                                                <td>--}}
+{{--                                                    <button type="button"--}}
+{{--                                                            class="btn-check-out"--}}
+{{--                                                            data-session-id="{{ $session->id }}"--}}
+{{--                                                            data-plate="{{ $session->vehicle->plate }}"--}}
+{{--                                                            style="display:inline-flex;align-items:center;gap:5px;background:#FCEBEB;color:#A32D2D;border:1px solid #F7C1C1;padding:5px 10px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;">--}}
+{{--                                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">--}}
+{{--                                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>--}}
+{{--                                                            <polyline points="16 17 21 12 16 7"/>--}}
+{{--                                                            <line x1="21" y1="12" x2="9" y2="12"/>--}}
+{{--                                                        </svg>--}}
+{{--                                                        Salida--}}
+{{--                                                    </button>--}}
+{{--                                                    <form id="checkout-form-{{ $session->id }}"--}}
+{{--                                                          action="{{ route('parking.check-out', $session) }}"--}}
+{{--                                                          method="POST" style="display:none;">--}}
+{{--                                                        @csrf--}}
+{{--                                                    </form>--}}
+{{--                                                </td>--}}
+{{--                                            </tr>--}}
+{{--                                        @empty--}}
+{{--                                            <tr>--}}
+{{--                                                <td colspan="6" class="text-center py-4" style="color:#aaa;font-size:13px;">--}}
+{{--                                                    No hay sesiones activas--}}
+{{--                                                </td>--}}
+{{--                                            </tr>--}}
+{{--                                        @endforelse--}}
+{{--                                        </tbody>--}}
+{{--                                    </table>--}}
+{{--                                </div>--}}
+
+{{--                                <div class="mt-2">{{ $activeSessions->links() }}</div>--}}
+
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h4 class="mb-0">Sesiones Activas</h4>
-                                    <form action="{{ route('parking.index') }}" method="GET" class="ms-3">
-                                        <input type="search" name="search" class="form-control form-control-sm real-time-search" placeholder="Buscar sesiones activas..." value="{{ $search ?? '' }}">
-                                    </form>
-                                </div>
+                                                                        <h4 class="mb-0">Sesiones Activas</h4>
+                                                                        <form action="{{ route('parking.index') }}" method="GET" class="ms-3">
+                                                                            <input type="search" name="search" class="form-control form-control-sm real-time-search" placeholder="Buscar sesiones activas..." value="{{ $search ?? '' }}">
+                                                                        </form>
+                                                                    </div>
+
                                 <table class="table table-sm table-hover">
                                     <thead>
                                         <tr>
@@ -68,7 +203,7 @@
                                     <tbody>
                                     @forelse ($activeSessions as $session)
                                         <tr>
-                                            <td>{{ $session->vehicle->plate }}</td>
+                                            <td><span class="badge bg-success-subtle text-black text-uppercase">{{ $session->vehicle->plate }} </span></td>
                                             <td>{{ $session->vehicle->type == 'car' ? 'Carro' : 'Moto' }}</td>
                                             <td>{{ $session->vehicle->owner->name ?? 'Invitado' }}</td>
                                             <td>{{ $session->entry_time->format('Y-m-d H:i') }}</td>

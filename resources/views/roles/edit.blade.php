@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <x-button type="primary" text="{{ __('Save') }}"></x-button>
-                        <a href="{{ route('roles.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
+                        <a href="{{ route('roles.index') }}" class="btn btn-outline-secondary">{{ __('Cancel') }}</a>
                     </form>
                 </div>
             </div>

@@ -32,7 +32,7 @@ class ParkingSessionController extends Controller
             ->where('status', 'completed')
             ->whereDate('exit_time', now()->toDateString())
             ->latest()
-            ->take(25)
+            ->take(20)
             ->get();
 
 

@@ -44,7 +44,7 @@
                             <input type="password" class="form-control" id="password-confirm" name="password_confirmation" required>
                         </div>
                         <x-button type="primary" text="{{ __('Save') }}"></x-button>
-                        <a href="{{ route('users.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
+                        <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">{{ __('Cancel') }}</a>
                     </form>
                 </div>
             </div>
