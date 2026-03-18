@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BrandSeeder::class,
             RateSeeder::class,
+            WashTypeSeeder::class
         ]);
 
         if (config('app.env') === 'local') { // Demo user for testing
